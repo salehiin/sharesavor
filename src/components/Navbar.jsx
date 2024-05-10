@@ -19,6 +19,9 @@ const Navbar = () => {
           <li>
             <Link to='/'>Home</Link>
           </li>
+          <li>
+            <Link to='/foods'>Available Foods</Link>
+          </li>
 
           {!user && (
             <li>
@@ -47,10 +50,13 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <div className="justify-between">Add Job</div>
+                <Link to='/addfood' className="justify-between">Add Food</Link>
               </li>
               <li>
-                <div>My Posted Jobs</div>
+                <Link to='/myadded'>Manage My Foods</Link>
+              </li>
+              <li>
+                <Link to='/myrequests'>My Food Request</Link>
               </li>
               <li>
                 <div>My Bids</div>

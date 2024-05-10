@@ -4,16 +4,24 @@ import Home from "../pages/Home";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
 import FoodDetails from "../pages/FoodDetails";
+import AddFood from "../pages/AddFood";
+import Foods from "../pages/Foods";
+import ErrorPage from "../pages/ErrorPage";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Main></Main>,
+        errorElement: <ErrorPage></ErrorPage>,
         children:[
             {
             index: true,
             element: <Home></Home>,
             // loader: ()=>fetch(`${import.meta.env.VITE_API_URL}/foods`)
+            },
+            {
+            path: '/foods',
+            element: <Foods></Foods>
             },
             {
             path: '/login',
@@ -27,6 +35,11 @@ const router = createBrowserRouter([
             path: '/food/:id',
             element: <FoodDetails></FoodDetails>,
             loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/food/${params.id}`)
+            },
+            {
+            path: '/addfood',
+            element: <AddFood></AddFood>
+            // loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/food/${params.id}`)
             },
         ],
 
