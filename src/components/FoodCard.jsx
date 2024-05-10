@@ -1,9 +1,20 @@
+import { Link } from "react-router-dom";
 
 
 const FoodCard = ({food}) => {
 
 
-    const { foodName } = food || {}
+    const { 
+        _id, 
+        foodName, 
+        donatorName, 
+        donatorImage, 
+        quantity, 
+        pickupLocation, 
+        expiredDateTime, 
+        additionalNotes 
+
+    } = food || {}
 
 
     return (
@@ -16,11 +27,14 @@ const FoodCard = ({food}) => {
 
                     <h2 className="mt-2 text-xl font-semibold text-gray-800 dark:text-white md:mt-0">{foodName}</h2>
 
+                    <span>Expired date: {expiredDateTime}</span>
+
                     <p className="mt-2 text-sm text-gray-600 dark:text-gray-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae dolores deserunt ea doloremque natus error, rerum quas odio quaerat nam ex commodi hic, suscipit in a veritatis pariatur minus consequuntur!</p>
 
-                    <div className="flex justify-end mt-4">
-                        <a href="#" className="text-lg font-medium text-blue-600 dark:text-blue-300" tabIndex="0" role="link">John Doe</a>
-                    </div>
+                    <Link to={`/food/${_id}`} className="flex justify-between items-center mt-4">
+                        <a href="#" className="text-lg font-medium text-blue-600 dark:text-blue-300" tabIndex="0" role="link">{donatorName}</a>
+                        <button className="btn btn-info">View details</button>
+                    </Link>
                 </div>
                 
             
