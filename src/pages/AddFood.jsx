@@ -1,9 +1,49 @@
 import { useContext } from "react"
 import { AuthContext } from "../provider/AuthProvider"
+import { useNavigate } from "react-router-dom"
+import toast from "react-hot-toast"
+import axios from "axios"
 
 const AddFood = () => {
 
     const {user} = useContext(AuthContext)
+
+    const navigate = useNavigate()
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        // const foodId = _id;
+        const name = form.name.value
+        const photo = form.photo.value
+        // const donatorImage = form.pic.value
+        // const donatorName = form.dname.value
+        const quantity = form.quantity.value
+        const pickup = form.pickup.value
+        const expiry = form.expiry.value
+        // const donatorEmail = form.email.value
+        // const donatorEmail = form.email.value
+        // const pLocation = form.locate.value
+        // const eDate = form.edate.value
+        // const email = user?.email;
+        // const aNotes = form.notes.value
+        // const status = 'Available'
+        const notes = form.notes.value
+        const foodData = {
+
+            name, photo, quantity, pickup, expiry, notes
+           
+      }
+      try{
+        const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/food`, foodData)
+        console.log(data)
+        toast.success('Food Added Successfully!')
+        navigate('/myadded')
+      }catch (err) {
+        console.log(err)
+      }
+
+    }
 
     return (
       <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
@@ -12,20 +52,111 @@ const AddFood = () => {
             Share some food
           </h2>
   
-          <form>
+          <form onSubmit={handleFormSubmit}>
             <div className='grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2'>
+                {/* FOOD IMAGE */}
               <div>
                 <label className='text-gray-700 ' htmlFor='job_title'>
-                  Job Title
+                  Food Image
                 </label>
                 <input
-                  id='job_title'
-                  name='job_title'
+                  id='photo'
+                  name='photo'
                   type='text'
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                 />
               </div>
-  
+              {/* FOOD NAME */}
+              <div>
+                <label className='text-gray-700 ' htmlFor='job_title'>
+                  Food Name
+                </label>
+                <input
+                  id='name'
+                  name='name'
+                  type='text'
+                  className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                />
+              </div>
+              {/* FOOD QUANTYTY */}
+              <div>
+                <label className='text-gray-700 ' htmlFor='job_title'>
+                  Food Quantity
+                </label>
+                <input
+                  id='quantity'
+                  name='quantity'
+                  type='text'
+                  className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                />
+              </div>
+              {/* PICKUP LOCATION */}
+              <div>
+                <label className='text-gray-700 ' htmlFor='job_title'>
+                    PICKUP LOCATION
+                </label>
+                <input
+                  id='pickup'
+                  name='pickup'
+                  type='text'
+                  className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                />
+              </div>
+              {/* EXPIRED DATE */}
+              <div>
+                <label className='text-gray-700 ' htmlFor='job_title'>
+                EXPIRED DATE
+                </label>
+                <input
+                  id='expiry'
+                  name='expiry'
+                  type='text'
+                  className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                />
+              </div>
+              {/* STATUS */}
+              {/* <div>
+                <label className='text-gray-700 ' htmlFor='job_title'>
+                  Status
+                </label>
+                <input
+                  id='job_title'
+                  name='status'
+                  type='text'
+                  disabled
+                  defaultValue={status}
+                  className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                />
+              </div> */}
+                {/* DONAR IMAGE */}
+              <div>
+                <label className='text-gray-700 ' htmlFor='emailAddress'>
+                  Donar Image
+                </label>
+                <input
+                  id='emailAddress'
+                  type='email'
+                  name='email'
+                  disabled
+                  defaultValue={user?.photoURL}
+                  className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                />
+              </div>
+              {/* DONAR NAME */}
+              <div>
+                <label className='text-gray-700 ' htmlFor='emailAddress'>
+                  Donar Name
+                </label>
+                <input
+                  id='name'
+                  type='text'
+                  name='name'
+                  disabled
+                  defaultValue={user?.displayName}
+                  className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
+                />
+              </div>
+              {/* DONAR EMAIL */}
               <div>
                 <label className='text-gray-700 ' htmlFor='emailAddress'>
                   Email Address
@@ -39,13 +170,13 @@ const AddFood = () => {
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                 />
               </div>
-              <div className='flex flex-col gap-2 '>
-                <label className='text-gray-700'>Deadline</label>
+              {/* <div className='flex flex-col gap-2 '>
+                <label className='text-gray-700'>Deadline</label> */}
   
                 {/* Date Picker Input Field */}
-              </div>
+              {/* </div> */}
   
-              <div className='flex flex-col gap-2 '>
+              {/* <div className='flex flex-col gap-2 '>
                 <label className='text-gray-700 ' htmlFor='category'>
                   Category
                 </label>
@@ -58,8 +189,8 @@ const AddFood = () => {
                   <option value='Graphics Design'>Graphics Design</option>
                   <option value='Digital Marketing'>Digital Marketing</option>
                 </select>
-              </div>
-              <div>
+              </div> */}
+              {/* <div>
                 <label className='text-gray-700 ' htmlFor='min_price'>
                   Minimum Price
                 </label>
@@ -69,9 +200,9 @@ const AddFood = () => {
                   type='number'
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                 />
-              </div>
+              </div> */}
   
-              <div>
+              {/* <div>
                 <label className='text-gray-700 ' htmlFor='max_price'>
                   Maximum Price
                 </label>
@@ -81,7 +212,7 @@ const AddFood = () => {
                   type='number'
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                 />
-              </div>
+              </div> */}
             </div>
             <div className='flex flex-col gap-2 mt-4'>
               <label className='text-gray-700 ' htmlFor='description'>
@@ -89,13 +220,13 @@ const AddFood = () => {
               </label>
               <textarea
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-                name='description'
-                id='description'
+                name='notes'
+                id='notes'
               ></textarea>
             </div>
             <div className='flex justify-end mt-6'>
               <button className='px-8 py-2.5 leading-5 text-white transition-colors duration-300 transhtmlForm bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600'>
-                Save
+                Add Food
               </button>
             </div>
           </form>
