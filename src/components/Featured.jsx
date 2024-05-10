@@ -1,7 +1,20 @@
+import { useEffect, useState } from "react";
 import FoodCard from "./FoodCard";
+import axios from "axios";
 
 
 const Featured = () => {
+
+    const [foods, setFoods] = useState([])
+    useEffect(() => {
+        const getData = async () => {
+            const {data} = await axios(`${import.meta.env.VITE_API_URL}/foods`)
+            setFoods(data)
+        }
+        getData()
+    }, [])
+
+
     return (
         <div className='flex p-6'>
             <div className='w-1/2 bg-black text-white p-4'>
@@ -15,7 +28,9 @@ const Featured = () => {
                 </p>
             </div>
             <div className='w-1/2 bg-green mx-auto'>
-                <FoodCard></FoodCard>
+                {foods.map(food=> (
+                <FoodCard key={food._id} food={food}></FoodCard>
+            ))}
             </div>
         </div>
     );
