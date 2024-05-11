@@ -58,12 +58,6 @@ const Navbar = () => {
               <li>
                 <Link to='/myrequests'>My Food Request</Link>
               </li>
-              <li>
-                <div>My Bids</div>
-              </li>
-              <li>
-                <div>Bid Requests</div>
-              </li>
               <li className="mt-2">
                 <button onClick={logOut} className="bg-gray-200 block text-center">
                   Logout

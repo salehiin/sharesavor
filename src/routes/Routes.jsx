@@ -8,6 +8,8 @@ import AddFood from "../pages/AddFood";
 import Foods from "../pages/Foods";
 import ErrorPage from "../pages/ErrorPage";
 import ManageMyFoods from "../pages/ManageMyFoods";
+import PrivateRoute from "./PrivateRoute";
+import MyRequests from "../pages/MyRequests";
 
 const router = createBrowserRouter([
     {
@@ -34,17 +36,25 @@ const router = createBrowserRouter([
             },
             {
             path: '/food/:id',
-            element: <FoodDetails></FoodDetails>,
+            element: <PrivateRoute><FoodDetails></FoodDetails></PrivateRoute>,
             loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/food/${params.id}`)
             },
             {
             path: '/addfood',
-            element: <AddFood></AddFood>
+            element: <PrivateRoute><AddFood></AddFood></PrivateRoute>
             // loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/food/${params.id}`)
             },
+            // {
+            // path: '/update/:id',
+            // element: <PrivateRoute><UpdateFood></UpdateFood></PrivateRoute>
+            // },
             {
             path: '/myadded',
-            element: <ManageMyFoods></ManageMyFoods>
+            element: <PrivateRoute><ManageMyFoods></ManageMyFoods></PrivateRoute>
+            },
+            {
+            path: '/myrequests',
+            element: <PrivateRoute><MyRequests></MyRequests></PrivateRoute>
             },
         ],
 

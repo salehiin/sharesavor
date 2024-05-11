@@ -15,7 +15,7 @@ const AddFood = () => {
         const form = e.target;
         // const foodId = _id;
         const name = form.name.value
-        const photo = form.photo.value
+        const donatorImage = form.photo.value
         // const donatorImage = form.pic.value
         // const donatorName = form.dname.value
         const quantity = form.quantity.value
@@ -31,7 +31,7 @@ const AddFood = () => {
         const notes = form.notes.value
         const foodData = {
 
-            name, photo, quantity, pickup, expiry, notes
+            name, donatorImage, quantity, pickup, expiry, notes
            
       }
       try{
