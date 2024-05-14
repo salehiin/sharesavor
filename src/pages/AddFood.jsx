@@ -1,37 +1,52 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { AuthContext } from "../provider/AuthProvider"
 import { useNavigate } from "react-router-dom"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import toast from "react-hot-toast"
 import axios from "axios"
 
 const AddFood = () => {
 
+  
+
     const {user} = useContext(AuthContext)
 
     const navigate = useNavigate()
 
+    const [startDate, setStartDate] = useState(new Date());
+
     const handleFormSubmit = async (e) => {
+
+
         e.preventDefault();
-        const form = e.target;
+
+
+       const form = e.target;
         // const foodId = _id;
-        const name = form.name.value
-        const donatorImage = form.photo.value
-        // const donatorImage = form.pic.value
-        // const donatorName = form.dname.value
+        const foodName = form.foodName.value
+        const foodImage = form.foodImage.value
+        const expiredDateTime = startDate
+        const email = form.email.value
         const quantity = form.quantity.value
-        const pickup = form.pickup.value
-        const expiry = form.expiry.value
-        // const donatorEmail = form.email.value
-        // const donatorEmail = form.email.value
-        // const pLocation = form.locate.value
+        const pickupLocation = form.pickupLocation.value
+        const additionalNotes = form.additionalNotes.value
+        // const photoURL = user?.photoURL
+        // const displayNameme = user?.displayName
+        // const donatorName = donatorName
+        // const demail = form.userEmail.value
+        // const date = form.requestDate.value
         // const eDate = form.edate.value
         // const email = user?.email;
         // const aNotes = form.notes.value
         // const status = 'Available'
-        const notes = form.notes.value
         const foodData = {
 
-            name, donatorImage, quantity, pickup, expiry, notes
+          foodName, foodImage, expiredDateTime, quantity, pickupLocation,  additionalNotes, donar: {
+              email,
+              name: user?.displayName,
+              photo: user?.photoURL,
+            },
            
       }
       try{
@@ -44,6 +59,8 @@ const AddFood = () => {
       }
 
     }
+
+    
 
     return (
       <div className='flex justify-center items-center min-h-[calc(100vh-306px)] my-12'>
@@ -61,7 +78,7 @@ const AddFood = () => {
                 </label>
                 <input
                   id='photo'
-                  name='photo'
+                  name='foodImage'
                   type='text'
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                 />
@@ -73,7 +90,7 @@ const AddFood = () => {
                 </label>
                 <input
                   id='name'
-                  name='name'
+                  name='foodName'
                   type='text'
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                 />
@@ -97,7 +114,7 @@ const AddFood = () => {
                 </label>
                 <input
                   id='pickup'
-                  name='pickup'
+                  name='pickupLocation'
                   type='text'
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                 />
@@ -107,12 +124,10 @@ const AddFood = () => {
                 <label className='text-gray-700 ' htmlFor='job_title'>
                 EXPIRED DATE
                 </label>
-                <input
-                  id='expiry'
-                  name='expiry'
-                  type='text'
-                  className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-                />
+                <DatePicker 
+                className='border p-2 rounded-md block' 
+                selected={startDate} 
+                onChange={(date) => setStartDate(date)} />
               </div>
               {/* STATUS */}
               {/* <div>
@@ -135,8 +150,8 @@ const AddFood = () => {
                 </label>
                 <input
                   id='emailAddress'
-                  type='email'
-                  name='donatorImage'
+                  // type='email'
+                  name='dimage'
                   disabled
                   defaultValue={user?.photoURL}
                   className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
@@ -149,7 +164,7 @@ const AddFood = () => {
                 </label>
                 <input
                   id='name'
-                  type='text'
+                  // type='text'
                   name='name'
                   disabled
                   defaultValue={user?.displayName}
@@ -163,7 +178,7 @@ const AddFood = () => {
                 </label>
                 <input
                   id='emailAddress'
-                  type='email'
+                  // type='email'
                   name='email'
                   disabled
                   defaultValue={user?.email}
@@ -220,7 +235,7 @@ const AddFood = () => {
               </label>
               <textarea
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-                name='notes'
+                name='additionalNotes'
                 id='notes'
               ></textarea>
             </div>

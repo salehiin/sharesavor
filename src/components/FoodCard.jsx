@@ -7,10 +7,14 @@ const FoodCard = ({food}) => {
     const { 
         _id, 
         foodName, 
+        foodImage,
+        userEmail,
         donatorName, 
-        donatorImage, 
+        donatorImage,
+        donatorEmail, 
         quantity, 
         pickupLocation, 
+        requestDate,
         expiredDateTime, 
         additionalNotes 
 
@@ -30,7 +34,7 @@ const FoodCard = ({food}) => {
 
                     <span>Expired date: {expiredDateTime}</span>
 
-                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae dolores deserunt ea doloremque natus error, rerum quas odio quaerat nam ex commodi hic, suscipit in a veritatis pariatur minus consequuntur!</p>
+                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-200">{additionalNotes}</p>
 
                     <Link to={`/food/${_id}`} className="flex justify-between items-center mt-4">
                         <a href="#" className="text-lg font-medium text-blue-600 dark:text-blue-300" tabIndex="0" role="link">{donatorName}</a>

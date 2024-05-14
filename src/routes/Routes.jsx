@@ -10,6 +10,7 @@ import ErrorPage from "../pages/ErrorPage";
 import ManageMyFoods from "../pages/ManageMyFoods";
 import PrivateRoute from "./PrivateRoute";
 import MyRequests from "../pages/MyRequests";
+import UpdateFood from "../pages/UpdateFood";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,11 @@ const router = createBrowserRouter([
             {
             path: '/food/:id',
             element: <PrivateRoute><FoodDetails></FoodDetails></PrivateRoute>,
+            loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/food/${params.id}`)
+            },
+            {
+            path: '/update/:id',
+            element: <PrivateRoute><UpdateFood></UpdateFood></PrivateRoute>,
             loader: ({params})=>fetch(`${import.meta.env.VITE_API_URL}/food/${params.id}`)
             },
             {

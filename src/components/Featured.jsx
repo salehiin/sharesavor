@@ -59,7 +59,7 @@ const Featured = () => {
           </p>
         </div>
         <div className="w-1/2 bg-green mx-auto">
-          {foods.map((food) => (
+          {foods.slice(0, 6).map((food) => (
             <FoodCard key={food._id} food={food}></FoodCard>
           ))}
         </div>

@@ -1,12 +1,20 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../provider/AuthProvider";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const ManageMyFoods = () => {
   const { user } = useContext(AuthContext);
   const [foods, setFoods] = useState([]);
 
+  const [startDate, setStartDate] = useState(new Date());
+
   useEffect(() => {
+
+    
     
     getData()
   }, [user])
@@ -18,15 +26,31 @@ const ManageMyFoods = () => {
     setFoods(data)
   }
 
-  console.log(foods);
+
+
+  // console.log(foods);
+
+  const handleDelete = async id=>{
+    try{
+      const {data} = await axios.delete(`${import.meta.env.VITE_API_URL}/food/${id}`)
+      console.log(data)
+      toast.success('Delete Successful!')
+      getData()
+        // navigate('/myrequests')
+    }catch (err){
+      console.log(err.message)
+      toast.error(err.message)
+    }
+  }
+
 
   return (
     <section className="container px-4 mx-auto pt-12">
       <div className="flex items-center gap-x-3">
-        <h2 className="text-lg font-medium text-gray-800 ">My Posted Jobs</h2>
+        <h2 className="text-lg font-medium text-gray-800 ">My Donated Foods</h2>
 
         <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
-          {foods.length} Jobs
+          {foods.length} Food
         </span>
       </div>
 
@@ -42,7 +66,7 @@ const ManageMyFoods = () => {
                       className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500"
                     >
                       <div className="flex items-center gap-x-3">
-                        <span>Title</span>
+                        <span>Food Name</span>
                       </div>
                     </th>
 
@@ -50,7 +74,7 @@ const ManageMyFoods = () => {
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
                     >
-                      <span>Deadline</span>
+                      <span>Quantity</span>
                     </th>
 
                     <th
@@ -58,7 +82,7 @@ const ManageMyFoods = () => {
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
                     >
                       <button className="flex items-center gap-x-2">
-                        <span>Price Range</span>
+                        <span>Expiry</span>
                       </button>
                     </th>
 
@@ -66,53 +90,72 @@ const ManageMyFoods = () => {
                       scope="col"
                       className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
                     >
-                      Category
+                      Location
                     </th>
                     <th
                       scope="col"
-                      className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+                      className="px-2 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
                     >
                       Description
                     </th>
 
                     <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                      Edit
+                      Posted On
+                    </th>
+                    <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                      Food Id
                     </th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200 ">
-                  {foods.map((food) => (
+                  {foods.map(food => (
                     <tr key={food._id}>
                       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        Build Dynamic Website
+                        {food.foodName}
                       </td>
 
                       <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        10/04/2024
+                        {food.quantity}
+                      </td>
+                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
+                      {new Date(food.expiredDateTime).toLocaleDateString()}
+                        
                       </td>
 
-                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        $100-$200
-                      </td>
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-2">
                           <p
                             className="px-3 py-1 rounded-full text-blue-500 bg-blue-100/60
                                text-xs"
                           >
-                            Web Development
+                            {food.pickupLocation}
                           </p>
                         </div>
                       </td>
                       <td
                         title=""
+                        className="px-2 py-4 text-sm text-gray-500 whitespace-pre-wrap "
+                      >
+                        {food.additionalNotes}
+                      </td>
+                      <td
+                        title=""
                         className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap"
                       >
-                        Lorem ipsum, dolor si adipisicing elit. Ex, provident?..
+                        {food.requestDate}
+                      </td>
+                      
+                      <td
+                        title=""
+                        className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap"
+                      >
+                        {food._id}
                       </td>
                       <td className="px-4 py-4 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-6">
-                          <button className="text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none">
+                          <button 
+                          onClick={() => handleDelete(food._id)}
+                          className="text-gray-500 transition-colors duration-200   hover:text-red-500 focus:outline-none">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -129,7 +172,9 @@ const ManageMyFoods = () => {
                             </svg>
                           </button>
 
-                          <button className="text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none">
+                          <Link
+                          to={`/update/${food._id}`}
+                           className="text-gray-500 transition-colors duration-200   hover:text-yellow-500 focus:outline-none">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               fill="none"
@@ -144,7 +189,7 @@ const ManageMyFoods = () => {
                                 d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
                               />
                             </svg>
-                          </button>
+                          </Link>
                         </div>
                       </td>
                     </tr>

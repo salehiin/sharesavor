@@ -1,9 +1,10 @@
 import { useContext, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const FoodDetails = () => {
 
@@ -12,43 +13,57 @@ const FoodDetails = () => {
 
   const { user } = useContext(AuthContext);
 
+  const navigate = useNavigate()
+
   const food = useLoaderData();
 
   const {
     _id,
     foodName,
     foodImage,
-    donatorName,
-    donar_email,
-    donatorImage,
-    requestDate,
+    // donatorName,
+    // donatorImage,
+    requestDate, 
     quantity,
     pickupLocation,
     expiredDateTime,
     additionalNotes,
     userEmail,
-  } = food || {};
+    donar,
+  } = food || {}
 
   const handleFormSubmission = async (e) => {
     e.preventDefault()
+    if (user?.email === donar?.email)
+      return toast.error('Action not permitted!')
+   
+    // if(user?.email ===donar?.email) return toast.error('Action not permitted!')
+    
     const form = e.target
     const foodId = _id
     const name = foodName
     const fphoto = foodImage
-    // const donar_email = form.donar_email
-    const dname = donatorName
+    // const displayName = donatorName
     const rdate = requestDate
     const location = pickupLocation
     const expiry = expiredDateTime
     const email = user?.email
-    // const aNotes = form.notes.value
-    // const status = 'Pending'
-    const notes = additionalNotes
+    const donator_email = donar?.email
+    const donator_name = donar?.name
+    // const notes = additionalNotes
+    const comment = form.comment.value
+    const status = 'Pending'
 
-    const begData = {foodId, name, fphoto, email, donar_email, dname, rdate, location, expiry, email, notes}
+    const begData = {
+      foodId, name, fphoto, rdate, location, expiry, email, donator_name, 
+      donator_email, comment, status, donar}
+
+    console.table(begData)
     try{
-      const {data} = await axios.post('http://localhost:9000/beg', begData)
+      const {data} = await axios.post(`${import.meta.env.VITE_API_URL}/beg`, begData)
       console.log(data)
+      toast.success('Your Request Successful!')
+        navigate('/myrequests')
     }catch (err){
       console.log(err)
     }
@@ -75,7 +90,8 @@ const FoodDetails = () => {
             {foodName}
           </h1>
           <p>Quantity: {quantity}</p>
-          <p>Expired date: {expiredDateTime}</p>
+          <p>Expired date: {new Date(expiredDateTime).toLocaleDateString()}</p>
+          <p>{userEmail}</p>
 
           {/* MODAL START */}
 
@@ -99,6 +115,11 @@ const FoodDetails = () => {
                         Place A Request
                       </h2>
 
+
+
+                      {/* FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM */}
+                      {/* FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM FORM */}
+
                       <form onSubmit={handleFormSubmission}>
                         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                           
@@ -110,9 +131,9 @@ const FoodDetails = () => {
                               <input
                                 id='name'
                                 type='text'
-                                name=''
+                                name='name'
                                 disabled
-                                defaultValue={name}
+                                defaultValue={foodName}
                                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
                               />
                           </div>
@@ -140,7 +161,7 @@ const FoodDetails = () => {
                               <input
                                 id='fname'
                                 type='text'
-                                name='fname'
+                                name='foodId'
                                 disabled
                                 defaultValue={_id}
                                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
@@ -154,9 +175,9 @@ const FoodDetails = () => {
                             <input
                               id="emailAddress"
                               type="email"
-                              name="donar_email"
+                              name="donator_email"
                               disabled
-                              defaultValue={donar_email}
+                              defaultValue={donar?.email}
                               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
                             />
                         </div>
@@ -167,11 +188,11 @@ const FoodDetails = () => {
                              Donator Name
                             </label>
                             <input
-                              id="emailAddress"
-                              type="text"
-                              name="dname"
+                              id="donarName"
+                              // type="text"
+                              name="donator_name"
                               disabled
-                              value={donatorName}
+                              defaultValue={donar?.name}
                               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
                             />
                           </div>
@@ -219,7 +240,7 @@ const FoodDetails = () => {
                               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
                             />
                           </div>
-                            
+                            {/* EXPIRED DATE */}
                           <div>
                             <label className="text-gray-700 " htmlFor="emailAddress">
                             Expired Date
@@ -233,23 +254,24 @@ const FoodDetails = () => {
                               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
                             />
                           </div>  
-
+                          {/* ADDITIONAL NOTES */}
                           <div>
                             <label className="text-gray-700 " htmlFor="comment">
                               Comment
                             </label>
                             <input
-                              id="NOTES"
-                              name="notes"
+                              id="comment"
+                              name="comment"
                               type="text"
-                              defaultValue={additionalNotes}
+                              
+                              // defaultValue={additionalNotes}
                               className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md   focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring"
                             />
                           </div>
                           <div className="flex flex-col gap-2 ">
-                            <label className="text-gray-700">Deadline</label>
+                            <label className="text-gray-700">Expired date: {new Date(expiredDateTime).toLocaleDateString()}</label>
 
-                            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                            {/* <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} /> */}
                           </div>
                         </div>
 
@@ -274,10 +296,7 @@ const FoodDetails = () => {
 
 
                 {/* Food Details */}
-                <form method="dialog">
-                  {/* if there is a button, it will close the modal */}
-                  <button className="btn">Place Request</button> 
-                </form> 
+                
               </div>
             </div>
           </dialog>
@@ -298,3 +317,6 @@ const FoodDetails = () => {
 };
 
 export default FoodDetails;
+
+
+// v-5 43:43
