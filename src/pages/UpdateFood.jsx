@@ -79,7 +79,7 @@ const UpdateFood = () => {
               </label>
               <input
                 id='job_title'
-                name='job_title'
+                name='foodName'
                 defaultValue={foodName}
                 type='text'
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
@@ -116,7 +116,7 @@ const UpdateFood = () => {
               </label>
               <input
                 id='job_title'
-                name='job_title'
+                name='foodImage'
                 defaultValue={foodImage}
                 type='text'
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
@@ -130,7 +130,7 @@ const UpdateFood = () => {
               <input
                 id='max_price'
                 defaultValue={quantity}
-                name='max_price'
+                name='quantity'
                 type='number'
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
               />
@@ -142,7 +142,7 @@ const UpdateFood = () => {
               <input
                 id='max_price'
                 defaultValue={pickupLocation}
-                name='max_price'
+                name='pickupLocation'
                 type='number'
                 className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
               />
@@ -156,7 +156,7 @@ const UpdateFood = () => {
             <textarea
               defaultValue={additionalNotes}
               className='block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md  focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40  focus:outline-none focus:ring'
-              name='description'
+              name='additionalNotes'
               id='description'
               cols='30'
             ></textarea>
