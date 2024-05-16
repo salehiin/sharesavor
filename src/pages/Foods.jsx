@@ -16,16 +16,18 @@ const Foods = () => {
 
 
     return (
-        <div className="text-center">
-            <h2>All foods</h2>
-            <div className="  border text-center">
-                <div className=" bg-green text-center border">
+        <div className="text-center bg-[black]">
+            <h1 className="text-6xl font-bold uppercase py-6 text-blue-600">All foods</h1>
+            {/* <div className="flex w-full justify-between"> */}
+            {/* <div className=" w-1/2  border flex"> */}
+                <div className="w-full grid grid-cols-2 text-left pb-16">
                     {foods.map((food) => (
                         <FoodCard key={food._id} food={food}></FoodCard>
                     ))}
                 </div>
             </div>
-        </div>
+            // </div>
+        // </div>
     );
 };
 
