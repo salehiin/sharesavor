@@ -9,7 +9,7 @@ Share Savor is a platform designed to connect individuals and communities to red
 Overview
 Share Savor is a web-based platform that allows users to donate, request, update, and delete surplus food items. Whether you have extra groceries, leftovers from an event, or perishable items nearing expiration, Share Savor provides a convenient and efficient way to share these resources with others who can benefit from them.
 
-Key Features(Bllet Points):
+Key Features(Bullet Points):
 
         Home Page: The home page serves as the central hub of Share Savor, welcoming users and providing easy navigation to         key sections of the platform.
 
